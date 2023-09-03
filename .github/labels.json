@@ -1,0 +1,52 @@
+[
+  {
+    "name": "bug",
+    "color": "d73a4a",
+    "description": "Bugfixes in codebase when something is not working."
+  },
+  {
+    "name": "documentation",
+    "color": "0075ca",
+    "description": "Improvements or additions to docs."
+  },
+  {
+    "name": "feature",
+    "description": "New enhancements and features.",
+    "color": "1B6659"
+  },
+  {
+    "name": "documentation",
+    "description": "Improvements or additions to docs.",
+    "color": "0075ca"
+  },
+  {
+    "name": "release",
+    "description": "Indicates a new release.",
+    "color": "108a51"
+  },
+  {
+    "name": "config",
+    "description": "Configuration and meta-infrastructural changes.",
+    "color": "8ed92e"
+  },
+  {
+    "name": "refactor",
+    "description": "Code refactoring.",
+    "color": "D0EFCD"
+  },
+  {
+    "name": "question",
+    "description": "Further information requested.",
+    "color": "d876e3"
+  },
+  {
+    "name": "data",
+    "description": "Issues pertaining to data or data preparations.",
+    "color": "FAA631"
+  },
+  {
+    "name": "tests",
+    "description": "Issues related to tests.",
+    "color": "e4e669"
+  }
+]

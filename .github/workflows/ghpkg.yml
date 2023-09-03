@@ -1,0 +1,18 @@
+name: Publish GitHub NuGet Package
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: GithubPackage
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Publish GitHub Package
+        uses: natescherer/publish-powershell-action@v1.0.3
+        with:
+          token: ${{ secrets.GH_PAT }}
+          target: packages
+          path: Source

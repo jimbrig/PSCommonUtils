@@ -1,0 +1,48 @@
+# Basic .gitattributes for a PowerShell repo.
+
+*        text=auto
+
+# --------------------------------------------------------------------------------------------
+# LINGUIST
+# --------------------------------------------------------------------------------------------
+
+# PowerShell
+*.ps1           linguist-language=PowerShell
+*.ps1x          linguist-language=PowerShell
+*.psm1          linguist-language=PowerShell
+*.psd1          linguist-language=PowerShell
+*.ps1xml        linguist-language=PowerShell
+
+# C#
+*.cs            linguist-language=C#
+
+# Set HTML, JS, and CSS to Vendored
+*.html          linguist-vendored
+*.htm           linguist-vendored
+*.js            linguist-vendored
+*.css           linguist-vendored
+
+# Source files
+# ============
+*.ps1      text eol=crlf
+*.ps1x     text eol=crlf
+*.psm1     text eol=crlf
+*.psd1     text eol=crlf
+*.ps1xml   text eol=crlf
+*.pssc     text eol=crlf
+*.psrc     text eol=crlf
+*.cdxml    text eol=crlf
+*.cs       text eol=crlf diff=csharp
+
+
+# Microsoft
+*.wsf           text      eol=crlf
+*.bat           text      eol=crlf
+*.cmd           text      eol=crlf
+*.vb            text      eol=crlf
+
+# Binaries
+*.exe           binary
+*.dll           binary
+*.pdb           binary
+*.zip           binary

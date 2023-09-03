@@ -1,0 +1,25 @@
+name: Publish Documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, develop]
+
+defaults:
+  run:
+    working-directory: Docs/website/
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Deploy MkDocs
+        run: |
+          pip install -r ./requirements.txt
+          mkdocs gh-deploy --force

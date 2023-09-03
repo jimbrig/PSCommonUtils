@@ -1,0 +1,19 @@
+name: Run Prester Tests
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  pester-test:
+    name: Run Pester Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Pester Tests
+        shell: pwsh
+        run: Test-Path PesterResults.log | Shouold -Be $true
+      - name: Run Tests.ps1
+        shell: pwsh
+        run: |
+          Invoke-Pester Tests/Unit.Tests.ps1 -PassThru -OutputFile Tests/Results/PesterResults.log

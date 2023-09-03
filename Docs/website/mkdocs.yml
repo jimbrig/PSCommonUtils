@@ -1,0 +1,36 @@
+site_name: "PSCommonUtils Documentation"
+site_url: https://docs.jimbrig.com/PSCommonUtils
+site_description: "Common Utility Functions with PowerShell"
+site_author: "Jimmy Briggs"
+
+copyright:
+  name: "Jimmy Briggs"
+  email: "jimmy.briggs@jimbrig.com"
+  url: "https://github.com/jimbrig/"
+
+remote_branch: gh-pages
+remote_name: origin
+
+repo_url: "https://github.com/jimbrig//PSCommonUtils"
+repo_name: GitHub
+
+edit_uri: edit/main/docs/website/docs/
+
+theme: readthedocs
+
+docs_dir: docs
+site_dir: site
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Reference: functions/index.md
+  - Changelog: changelog.md
+  - License: license.md
+  - "Issue Tracker": "https://github.com/jimbrig//PSCommonUtils/issues"
+  - "Source Code": "https://github.com/jimbrig//PSCommonUtils"
