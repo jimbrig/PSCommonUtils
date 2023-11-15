@@ -7,7 +7,6 @@ $Public = @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Publi
 $Private = @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Private/*.ps1') -Recurse -ErrorAction Stop)
 $Classes = @()
 $Enums = @()
-$DSCResources = @()
 
 If (!(Test-Path -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Classes'))) {
     $Classes = @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Classes/*.ps1') -Recurse -ErrorAction Stop)
@@ -17,11 +16,7 @@ If (!(Test-Path -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Enums/'))) {
     $Enums = @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Enums/*.ps1') -Recurse -ErrorAction Stop)
 }
 
-If (!(Test-Path -Path (Join-Path -Path $PSScriptRoot -ChildPath 'DSCResources'))) {
-    $DSCResources = @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'DSCResources/*.ps1') -Recurse -ErrorAction Stop)
-}
-
-$All = @($Public + $Private + $Classes + $Enums + $DSCResources)
+$All = @($Public + $Private + $Classes + $Enums)
 
 ForEach ($File in $All) {
     Try {

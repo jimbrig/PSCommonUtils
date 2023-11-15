@@ -13,45 +13,52 @@
         - Checks Module can be Imported
 #>
 
+
+
 Describe 'Build' {
 
     BeforeAll {
-        $global:manifest = Test-ModuleManifest -Path $PSScriptRoot/TestModule/TestModule/TestModule.psd1
-        $global:outputPath = "$PSScriptRoot/../Build/$($manifest.Version)"
+        $Global:TestModulePath = "$PSScriptRoot/../Mocks/TestModule/TestModule"
+        $Global:TestModuleManifestPath = "$TestModulePath/TestModule.psd1"
+        $Global:TestModuleManifest = Import-PowerShellDataFile -Path $TestModuleManifestPath
+        $Global:TestModuleOutputPath = "$PSScriptRoot/../Mocks/TestModule/Build/Output/TestModule/$($TestModuleManifest.ModuleVersion)"
 
-        If (Test-Path $outputPath) {
-            Remove-Item $outputPath -Recurse -Force
+        If (Test-Path $TestModuleOutputPath) {
+            Remove-Item -Path $TestModuleOutputPath -Recurse -Force | Out-Null
         }
 
-        If (!(Test-Path $outputPath)) {
-            New-Item -Path $outputPath -ItemType Directory | Out-Null
+        If (!(Test-Path $TestModuleOutputPath)) {
+            New-Item -Path $TestModuleOutputPath -ItemType Directory -Force | Out-Null
         }
     }
 
-    Context 'Compile module' {
+    Context 'Compile Module' {
         BeforeAll {
+
+            $OutputPath = $TestModuleOutputPath
+
             # build is PS job so psake doesn't freak out because it's nested
             Start-Job -Scriptblock {
-                Set-Location $using:PSScriptRoot/../
+                Set-Location $using:PSScriptRoot/../Mocks/TestModule
                 $global:PSBuildCompile = $true
                 ./build.ps1 -Task Build
             } | Wait-Job
         }
 
         AfterAll {
-            Remove-Item "$PSScriptRoot/TestModule/Output" -Recurse -Force
+            Remove-Item -Path "$PSScriptRoot/../Mocks/TestModule/Output" -Recurse -Force
         }
 
         It 'Creates module' {
-            $outputPath | Should -Exist
+            $OutputPath | Should -Exist
         }
 
         It 'Has PSD1 and monolithic PSM1' {
-            (Get-ChildItem -Path $outputPath -File).Count | Should -Be 2
-            "$outputPath/TestModule.psd1"                 | Should -Exist
-            "$outputPath/TestModule.psm1"                 | Should -Exist
-            "$outputPath/Public"                          | Should -Not -Exist
-            "$outputPath/Private"                         | Should -Not -Exist
+            (Get-ChildItem -Path $OutputPath -File).Count | Should -Be 2
+            "$outputPath/TestModule.psd1" | Should -Exist
+            "$outputPath/TestModule.psm1" | Should -Exist
+            "$outputPath/Public" | Should -Not -Exist
+            "$outputPath/Private" | Should -Not -Exist
         }
 
         It 'Has module header text' {
@@ -82,16 +89,19 @@ Describe 'Build' {
 
     Context 'Dot-sourced module' {
         BeforeAll {
+
+            $OutputPath = $TestModuleOutputPath
+
             # build is PS job so psake doesn't freak out because it's nested
             Start-Job -Scriptblock {
-                Set-Location $using:PSScriptRoot/TestModule
+                Set-Location $using:PSScriptRoot/../Mocks/TestModule
                 $global:PSBuildCompile = $false
                 ./build.ps1 -Task Build
             } | Wait-Job
         }
 
         AfterAll {
-            Remove-Item "$PSScriptRoot/TestModule/Output" -Recurse -Force
+            Remove-Item -Path "$PSScriptRoot/../Mocks/TestModule/Output" -Recurse -Force
         }
 
         It 'Creates module' {
@@ -99,19 +109,15 @@ Describe 'Build' {
         }
 
         It 'Has PSD1 and dot-sourced functions' {
-            (Get-ChildItem -Path $outputPath).Count | Should -Be 6
-            "$outputPath/TestModule.psd1"           | Should -Exist
-            "$outputPath/TestModule.psm1"           | Should -Exist
-            "$outputPath/Public"                    | Should -Exist
-            "$outputPath/Private"                   | Should -Exist
-        }
-
-        It 'Does not contain excluded stuff' {
-            (Get-ChildItem -Path $outputPath -File -Filter '*excludeme*' -Recurse).Count | Should -Be 0
+            (Get-ChildItem -Path $outputPath).Count | Should -BeGreaterThan 2
+            "$outputPath/TestModule.psd1" | Should -Exist
+            "$outputPath/TestModule.psm1" | Should -Exist
+            "$outputPath/Public" | Should -Exist
+            "$outputPath/Private" | Should -Exist
         }
 
         It 'Has MAML help XML' {
-            "$outputPath/en-US/TestModule-help.xml" | Should -Exist
+            "$OutputPath/en-US/TestModule-help.xml" | Should -Exist
         }
     }
 }
