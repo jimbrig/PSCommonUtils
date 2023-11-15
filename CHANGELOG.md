@@ -6,6 +6,10 @@
 
 ## [Unreleased]
 
+### Bug Fixes
+
+- Fix action syntax
+
 ### Features
 
 - Restructure
