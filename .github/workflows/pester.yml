@@ -16,4 +16,4 @@ jobs:
       - name: Run Tests.ps1
         shell: pwsh
         run: |
-          Invoke-Pester Tests/Unit.Tests.ps1 -PassThru -OutputFile Tests/Results/TestResults.xml
+          Invoke-Pester ./Tests/ -PassThru -OutputFile ./Tests/Results/TestResults.xml
